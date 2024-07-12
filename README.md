@@ -1,5 +1,5 @@
 # Basic-Multi-Encoder-Decoder
-## Originally created and left ~2021 but recently updated and debugged 12/07/24
+#### Originally created and left ~2021 but recently updated and debugged 12/07/24
 
 This program allows for:
 - Text traslation to Hex, Binary, Ascii85, Ascii, Base16, Base32 and Base64
