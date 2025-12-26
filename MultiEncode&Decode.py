@@ -4,9 +4,9 @@ def Encode():
     def Title():
         print("")
         print("--------------------------------------------------------------------------------")
-        print("\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/")
-        print(" \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MULTI ENCODER  / / / / / / / / / / / / / / / / / ")
-        print("\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/")
+        print(r"\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/")
+        print(r" \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MULTI ENCODER  / / / / / / / / / / / / / / / / / ")
+        print(r"\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/")
         print("--------------------------------------------------------------------------------")
         print("")
         print("Translates to Hex, Binary, Ascii85, Ascii, Base16, Base32, Base64")
@@ -81,55 +81,108 @@ def Encode():
         b64 = c64.decode("UTF-8")
 
         return b16, b32, b64
+
+
+    # New additions below
+    def Morse(text):
         
+        # Complete Morse code dictionary from the International Morse Code standards
+        morseDict = {
+            'A': '.-',    'B': '-...',  'C': '-.-.',  'D': '-..',   'E': '.',
+            'F': '..-.',  'G': '--.',   'H': '....',  'I': '..',    'J': '.---',
+            'K': '-.-',   'L': '.-..',  'M': '--',    'N': '-.',    'O': '---',
+            'P': '.--.',  'Q': '--.-',  'R': '.-.',   'S': '...',   'T': '-',
+            'U': '..-',   'V': '...-',  'W': '.--',   'X': '-..-',  'Y': '-.--',
+            'Z': '--..',
+            
+            '0': '-----', '1': '.----', '2': '..---', '3': '...--', '4': '....-',
+            '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.',
+            
+            '.': '.-.-.-', ',': '--..--', '?': '..--..',
+            "'": '.----.', '!': '-.-.--', '/': '-..-.',
+            '(': '-.--.', ')': '-.--.-', '&': '.-...',
+            ':': '---...', ';': '-.-.-.', '=': '-...-',
+            '+': '.-.-.', '-': '-....-', '_': '..--.-',
+            '"': '.-..-.'
+            }
+
+        # change all text to capitals to match dictionary
+        # and strip any whitespace at the beginning
+        text = text.strip().upper()
+        mCode = []
+        invalCount = 0
+
+        for ch in text:
+            if ch == ' ':
+                mCode.append('   ')
+            elif ch in morseDict:
+                mCode.append(morseDict[ch])
+            else:
+                print("Invalid character detected: ",ch,"\n Substituting with ?")
+                mCode.append('?')
+                invalCount += 1
+
+        mCode = ' '.join(mCode)
+        if invalCount >0:
+            print("There are", invalCount, "invalid characters detected")
+            
+        return mCode
 
 
         
-    def DISPLAY(Ascii, Hex, Binary, output85, b16, b32, b64):
+    def DISPLAY(Ascii, Hex, Binary, output85, b16, b32, b64, morse):
         print("\n","\n")
         print("")
-        print("     _      ____     ____   ___   ___  ")
-        print("    / \    / ___|   / ___| |_ _| |_ _| ")
-        print("   / _ \   \___ \  | |      | |   | |  ")
-        print("  / ___ \   ___) | | |___   | |   | |  ")
-        print(" /_/   \_\ |____/   \____| |___| |___| ")
+        print(r"     _      ____     ____   ___   ___  ")
+        print(r"    / \    / ___|   / ___| |_ _| |_ _| ")
+        print(r"   / _ \   \___ \  | |      | |   | |  ")
+        print(r"  / ___ \   ___) | | |___   | |   | |  ")
+        print(r" /_/   \_\ |____/   \____| |___| |___| ")
         print("------------------------------------------","\n") 
         print("The ascii translation of the input is:","\n","- ",Ascii,"\n")
         print("")
-        print("     _      ____     ____   ___   ___    ___    ____   ")
-        print("    / \    / ___|   / ___| |_ _| |_ _|  ( _ )  | ___|  ")
-        print("   / _ \   \___ \  | |      | |   | |   / _ \  |___ \  ")
-        print("  / ___ \   ___) | | |___   | |   | |  | (_) |  ___) | ")
-        print(" /_/   \_\ |____/   \____| |___| |___|  \___/  |____/  ")
+        print(r"     _      ____     ____   ___   ___    ___    ____   ")
+        print(r"    / \    / ___|   / ___| |_ _| |_ _|  ( _ )  | ___|  ")
+        print(r"   / _ \   \___ \  | |      | |   | |   / _ \  |___ \  ")
+        print(r"  / ___ \   ___) | | |___   | |   | |  | (_) |  ___) | ")
+        print(r" /_/   \_\ |____/   \____| |___| |___|  \___/  |____/  ")
         print("----------------------------------------------------------","\n") 
         print("The ASCII85 translation of the input is:","\n","- ",output85,"\n")
         print("")
-        print("   ____    _                                 ")
-        print("  | __ )  (_)  _ __     __ _   _ __   _   _  ")
-        print("  |  _ \  | | | '_ \   / _` | | '__| | | | | ")
-        print("  | |_) | | | | | | | | (_| | | |    | |_| | ")
-        print("  |____/  |_| |_| |_|  \__,_| |_|     \__, | ")
-        print("                                      |___/  ")
+        print(r"   ____    _                                 ")
+        print(r"  | __ )  (_)  _ __     __ _   _ __   _   _  ")
+        print(r"  |  _ \  | | | '_ \   / _` | | '__| | | | | ")
+        print(r"  | |_) | | | | | | | | (_| | | |    | |_| | ")
+        print(r"  |____/  |_| |_| |_|  \__,_| |_|     \__, | ")
+        print(r"                                      |___/  ")
         print("------------------------------------------------","\n") 
         print("The 8 bit binary translation of the input is:","\n","- ",Binary,"\n")
         print("")
-        print("   _   _   _____  __  __ ")
-        print("  | | | | | ____| \ \/ / ")
-        print("  | |_| | |  _|    \  /  ")
-        print("  |  _  | | |___   /  \  ")
-        print("  |_| |_| |_____| /_/\_\ ")
+        print(r"   _   _   _____  __  __ ")
+        print(r"  | | | | | ____| \ \/ / ")
+        print(r"  | |_| | |  _|    \  /  ")
+        print(r"  |  _  | | |___   /  \  ")
+        print(r"  |_| |_| |_____| /_/\_\ ")
         print("---------------------------","\n")    
         print("The hex translation of the input is:","\n","- ",Hex,"\n")
         print("")
-        print("   ____       _      ____    _____  ")
-        print("  | __ )     / \    / ___|  | ____| ")
-        print("  |  _ \    / _ \   \___ \  |  _|   ")
-        print("  | |_) |  / ___ \   ___) | | |___  ")
-        print("  |____/  /_/   \_\ |____/  |_____| ")
+        print(r"   ____       _      ____    _____  ")
+        print(r"  | __ )     / \    / ___|  | ____| ")
+        print(r"  |  _ \    / _ \   \___ \  |  _|   ")
+        print(r"  | |_) |  / ___ \   ___) | | |___  ")
+        print(r"  |____/  /_/   \_\ |____/  |_____| ")
         print("--------------------------------------","\n") 
         print("The Base16 trasnlation of the input is:","\n","- ",b16,"\n")
         print("The Base32 trasnlation of the input is:","\n","- ",b32,"\n")
         print("The Base64 trasnlation of the input is:","\n","- ",b64,"\n")
+        print("")
+        print(r"   __  __                             ")
+        print(r"  |  \/  |  ___   _ __   ___    ___   ")
+        print(r"  | |\/| | / _ \ | '__| / __|  / _ \  ")
+        print(r"  | |  | || (_) || |    \__ \ |  __/  ")
+        print(r"  |_|  |_| \___/ |_|    |___/  \___|  ")
+        print("----------------------------------------", "\n")
+        print("The Morse code translation of the input is:", "\n", morse, "\n")
      
         
 
@@ -141,7 +194,8 @@ def Encode():
         Binary = BINARY(text)
         output85 = ASCII85(text)
         b16, b32, b64 = BASE(text)
-        DISPLAY(Ascii, Hex, Binary, output85, b16, b32, b64)
+        morse = Morse(text)
+        DISPLAY(Ascii, Hex, Binary, output85, b16, b32, b64, morse)
         
 
     EncodeMain()
@@ -156,9 +210,9 @@ def Decode():
     def Title():
         print("")
         print("--------------------------------------------------------------------------------")
-        print("\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/")
-        print(" \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MULTI DECODER  / / / / / / / / / / / / / / / / / ")
-        print("\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/")
+        print(r"\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/")
+        print(r" \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MULTI DECODER  / / / / / / / / / / / / / / / / / ")
+        print(r"\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/")
         print("--------------------------------------------------------------------------------")
         print("")
         print("Translates From Ascii85 , Hex, Ascii, Binary")
@@ -291,43 +345,43 @@ def Decode():
     def A85DISPLAY(output85):
         print("")
         print("")
-        print("     _      ____     ____   ___   ___    ___    ____   ")
-        print("    / \    / ___|   / ___| |_ _| |_ _|  ( _ )  | ___|  ")
-        print("   / _ \   \___ \  | |      | |   | |   / _ \  |___ \  ")
-        print("  / ___ \   ___) | | |___   | |   | |  | (_) |  ___) | ")
-        print(" /_/   \_\ |____/   \____| |___| |___|  \___/  |____/  ")
+        print(r"     _      ____     ____   ___   ___    ___    ____   ")
+        print(r"    / \    / ___|   / ___| |_ _| |_ _|  ( _ )  | ___|  ")
+        print(r"   / _ \   \___ \  | |      | |   | |   / _ \  |___ \  ")
+        print(r"  / ___ \   ___) | | |___   | |   | |  | (_) |  ___) | ")
+        print(r" /_/   \_\ |____/   \____| |___| |___|  \___/  |____/  ")
         print("----------------------------------------------------------","\n") 
         print("The translation of the input is:","\n","- ",output85,"\n")
 
     def HexDISPLAY(Hex):
         print("")
         print("")
-        print("   _   _   _____  __  __ ")
-        print("  | | | | | ____| \ \/ / ")
-        print("  | |_| | |  _|    \  /  ")
-        print("  |  _  | | |___   /  \  ")
-        print("  |_| |_| |_____| /_/\_\ ")
+        print(r"   _   _   _____  __  __ ")
+        print(r"  | | | | | ____| \ \/ / ")
+        print(r"  | |_| | |  _|    \  /  ")
+        print(r"  |  _  | | |___   /  \  ")
+        print(r"  |_| |_| |_____| /_/\_\ ")
         print("---------------------------","\n")    
         print("The translation of the input is:","\n","- ",Hex,"\n")
 
     def ASCDISPLAY(Ascii):
         print("")
-        print("     _      ____     ____   ___   ___  ")
-        print("    / \    / ___|   / ___| |_ _| |_ _| ")
-        print("   / _ \   \___ \  | |      | |   | |  ")
-        print("  / ___ \   ___) | | |___   | |   | |  ")
-        print(" /_/   \_\ |____/   \____| |___| |___| ")
+        print(r"     _      ____     ____   ___   ___  ")
+        print(r"    / \    / ___|   / ___| |_ _| |_ _| ")
+        print(r"   / _ \   \___ \  | |      | |   | |  ")
+        print(r"  / ___ \   ___) | | |___   | |   | |  ")
+        print(r" /_/   \_\ |____/   \____| |___| |___| ")
         print("------------------------------------------","\n")
         print("The translation of the input is:","\n","- ",Ascii,"\n")
 
     def BinDISPLAY(Binary):
         print("")
-        print("   ____    _                                 ")
-        print("  | __ )  (_)  _ __     __ _   _ __   _   _  ")
-        print("  |  _ \  | | | '_ \   / _` | | '__| | | | | ")
-        print("  | |_) | | | | | | | | (_| | | |    | |_| | ")
-        print("  |____/  |_| |_| |_|  \__,_| |_|     \__, | ")
-        print("                                      |___/  ")
+        print(r"   ____    _                                 ")
+        print(r"  | __ )  (_)  _ __     __ _   _ __   _   _  ")
+        print(r"  |  _ \  | | | '_ \   / _` | | '__| | | | | ")
+        print(r"  | |_) | | | | | | | | (_| | | |    | |_| | ")
+        print(r"  |____/  |_| |_| |_|  \__,_| |_|     \__, | ")
+        print(r"                                      |___/  ")
         print("------------------------------------------------","\n") 
         print("The 8 bit binary translation of the input is:","\n","- ",Binary,"\n")
 
@@ -362,21 +416,50 @@ def Decode():
 def Main():
     EDchoice = input("Would you like to encode or decode text (e/d): ")
 
-    if EDchoice == "e":
-        Encode()
-    elif EDchoice == "d":
-        Decode()
-    else:
-        print(" - - - - - - - - - - INVALID INPUT - - - - - - - - - - ")
-        input("press ENTER to continue")
-        print("")
+    match EDchoice:
+        case "e":
+            Encode()
+        case "d":
+            Decode()
+        case "q":
+            sys.exit("Quitting Program")
+        case _:
+            print(" - - - - - - - - - - INVALID INPUT - - - - - - - - - - ")
+            input("press ENTER to continue")
+
+##    if EDchoice == "e":
+##        Encode()
+##    elif EDchoice == "d":
+##        Decode()
+##    else:
+##        print(" - - - - - - - - - - INVALID INPUT - - - - - - - - - - ")
+##        input("press ENTER to continue")
+##        print("")
 
 
 # Loop for multiple uses #
 Main()
 choice = str(input("Would you like another translation (y/n): "))
-while (choice == "y"):
-    Main()
-    choice = str(input("Would you like another translation (y/n): "))
-print("Goodbye!")
+
+while (choice != "n"):
+    match choice:
+        case "y":
+            Main()
+            choice = str(input("Would you like another translation (y/n): "))
+        case "n":
+            sys.exit("Quitting Program")
+        case "":
+            print(" - - - - - - - - - - INVALID INPUT - - - - - - - - - - ")
+            choice = str(input("Would you like another translation (y/n): "))
+        
+##while (choice == "y"):
+##    if choice == "n":
+##        sys.exit("Quitting Program")
+##        break
+##    else:
+##        Main()
+##        choice = str(input("Would you like another translation (y/n): "))
+
+            
+print("\n----- Program Ended -----")
     
